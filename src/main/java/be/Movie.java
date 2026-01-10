@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
-    private int id;
-    private String title;
-    private double personalRating;
-    private double imdbRating;
-    private String fileLink;
-    private String lastView; // Stored as String (YYYY-MM-DD)
+    private final int id;
+    private final String title;
+    private final double personalRating;
+    private final double imdbRating;
+    private final String fileLink;
+    private final String lastView; // Stored as String (YYYY-MM-DD)
 
     // Many-to-Many representation
-    private List<Category> categories = new ArrayList<>();
+    private final List<Category> categories = new ArrayList<>();
 
     public Movie(int id, String title, double personalRating, double imdbRating, String fileLink, String lastView) {
         this.id = id;

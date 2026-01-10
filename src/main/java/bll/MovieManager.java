@@ -11,8 +11,8 @@ import be.Category;
 import dal.CategoryDAO;
 
 public class MovieManager {
-    private MovieDAO movieDAO = new MovieDAO();
-    private CategoryDAO categoryDAO = new CategoryDAO();
+    private final MovieDAO movieDAO = new MovieDAO();
+    private final CategoryDAO categoryDAO = new CategoryDAO();
 
     public List<Movie> getAllMovies() {
         return movieDAO.getAllMovies();

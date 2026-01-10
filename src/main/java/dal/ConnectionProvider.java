@@ -1,59 +1,28 @@
 package dal;
 
+import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class ConnectionProvider {
 
-    private static final String URL = "jdbc:sqlite:moviecollection.db"; // Changed DB name
+    private final SQLServerDataSource ds;
 
     public ConnectionProvider() {
-        createTables();
+        ds = new SQLServerDataSource();
+        // Set the data from your screenshot
+        ds.setServerName("10.176.111.34");
+        ds.setDatabaseName("MyMovie");
+        ds.setPortNumber(1433);
+        ds.setUser("CS2025b_e_9");
+        ds.setPassword("YOUR_PASSWORD_HERE"); // <--- WRITE YOUR REAL PASSWORD HERE
+
+        // Settings for school servers
+        ds.setEncrypt("true");
+        ds.setTrustServerCertificate(true);
     }
 
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL);
-    }
-
-    private void createTables() {
-        // 1. Movie Table (Added ratings and lastview)
-        String sqlMovie = """
-            CREATE TABLE IF NOT EXISTS Movie (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                title TEXT,
-                rating REAL,
-                imdb_rating REAL,
-                filelink TEXT,
-                lastview TEXT
-            );
-        """;
-
-        // 2. Category Table
-        String sqlCategory = """
-            CREATE TABLE IF NOT EXISTS Category (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT
-            );
-        """;
-
-        // 3. CatMovie Junction Table (The Many-to-Many Link)
-        String sqlCatMovie = """
-            CREATE TABLE IF NOT EXISTS CatMovie (
-                movie_id INTEGER,
-                category_id INTEGER,
-                FOREIGN KEY (movie_id) REFERENCES Movie(id),
-                FOREIGN KEY (category_id) REFERENCES Category(id)
-            );
-        """;
-
-        try (Connection conn = getConnection(); Statement stmt = conn.createStatement()) {
-            stmt.execute(sqlMovie);
-            stmt.execute(sqlCategory);
-            stmt.execute(sqlCatMovie);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        return ds.getConnection();
     }
 }
