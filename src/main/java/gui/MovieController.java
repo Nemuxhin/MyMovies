@@ -24,6 +24,7 @@ public class MovieController implements Initializable {
     @FXML private TextField txtTitle, txtImdb, txtPersonal, txtSearch;
     @FXML private ComboBox<Category> cbCategory;
     @FXML private Button btnAddMovie, btnEditMovie, btnDeleteMovie, btnSave, btnCancel;
+    @FXML private Button btnSearch, btnClearSearch; // <--- ADD THIS LINE
 
     // --- Logic ---
     private MovieManager manager = new MovieManager();
@@ -53,16 +54,32 @@ public class MovieController implements Initializable {
     }
 
     private void setupListeners() {
-        // BUTTON: Save (The Disk Icon)
+        // 1. SEARCH: Filter list as you type
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.isEmpty()) {
+                tblMovies.getItems().setAll(manager.getAllMovies());
+            } else {
+                tblMovies.getItems().setAll(manager.searchMovies(newValue));
+            }
+        });
+
+        // 2. CLEAR SEARCH BUTTON
+        if (btnClearSearch != null) {
+            btnClearSearch.setOnAction(event -> {
+                txtSearch.clear();
+                tblMovies.getItems().setAll(manager.getAllMovies());
+            });
+        }
+
+        // 3. EDIT BUTTON
+        btnEditMovie.setOnAction(event -> handleEdit()); // We will write this method next
+
+        // Existing buttons...
         btnSave.setOnAction(event -> handleSave());
-
-        // BUTTON: Delete (The Trash Icon)
         btnDeleteMovie.setOnAction(event -> handleDelete());
-
-        // BUTTON: Add (+) - Just clears the fields for typing
         btnAddMovie.setOnAction(event -> clearFields());
 
-        // BUTTON: Play (Double click table row)
+        // Double-click to Play
         tblMovies.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2 && tblMovies.getSelectionModel().getSelectedItem() != null) {
                 playMovie(tblMovies.getSelectionModel().getSelectedItem());
@@ -93,6 +110,30 @@ public class MovieController implements Initializable {
             }
         } catch (NumberFormatException e) {
             showAlert("Invalid Number", "Ratings must be numbers (e.g., 8.5).");
+        }
+    }
+
+    private void handleEdit() {
+        Movie selected = tblMovies.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            txtTitle.setText(selected.getTitle());
+            txtImdb.setText(String.valueOf(selected.getImdbRating()));
+            txtPersonal.setText(String.valueOf(selected.getPersonalRating()));
+
+            // Select the correct category in the dropdown
+            // (This assumes the movie has at least one category)
+            if (!selected.getCategories().isEmpty()) {
+                // Find the matching category object in the ComboBox items
+                for (Category c : cbCategory.getItems()) {
+                    if (c.getId() == selected.getCategories().get(0).getId()) {
+                        cbCategory.getSelectionModel().select(c);
+                        break;
+                    }
+                }
+            }
+            // TODO: Store the 'selected' movie ID somewhere so 'handleSave' knows to UPDATE instead of CREATE
+        } else {
+            showAlert("No Selection", "Please select a movie to edit.");
         }
     }
 

@@ -94,34 +94,25 @@ public class MovieDAO {
     }
 
     public void deleteMovie(Movie movie) {
-        // 1. Delete the relations (Categories) first
+        // 1. Delete the category links first
         String sqlRec = "DELETE FROM CatMovie WHERE movie_id = ?";
         // 2. Delete the movie itself
         String sqlMov = "DELETE FROM Movie WHERE id = ?";
 
         try (Connection conn = cp.getConnection()) {
-            conn.setAutoCommit(false); // Start Transaction
-
+            // ... (We delete relations first to avoid database errors) ...
             try (PreparedStatement stmtRec = conn.prepareStatement(sqlRec);
                  PreparedStatement stmtMov = conn.prepareStatement(sqlMov)) {
 
-                // Remove category links
                 stmtRec.setInt(1, movie.getId());
                 stmtRec.executeUpdate();
 
-                // Remove movie
                 stmtMov.setInt(1, movie.getId());
                 stmtMov.executeUpdate();
-
-                conn.commit(); // Save changes
-            } catch (SQLException e) {
-                conn.rollback(); // Undo if something failed
-                throw e;
-            } finally {
-                conn.setAutoCommit(true);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 }

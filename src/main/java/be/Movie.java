@@ -9,7 +9,7 @@ public class Movie {
     private double personalRating;
     private double imdbRating;
     private String fileLink;
-    private String lastView; // Stored as String (YYYY-MM-DD) for SQLite simplicity
+    private String lastView; // Stored as String (YYYY-MM-DD)
 
     // Many-to-Many representation
     private List<Category> categories = new ArrayList<>();

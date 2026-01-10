@@ -10,7 +10,6 @@ import java.io.IOException;
 public class MovieApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        // UPDATED: Pointing to the new FXML file name
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/MovieManagerView.fxml"));
 
         Parent root = fxmlLoader.load();
