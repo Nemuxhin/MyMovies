@@ -11,9 +11,7 @@ public class MovieDAO {
 
     public List<Movie> getAllMovies() {
         List<Movie> movies = new ArrayList<>();
-        // Simple fetch. For performance, you might lazy-load categories,
-        // but for a school project, we can fetch categories for each movie.
-        String sql = "SELECT * FROM Movie";
+        String sql = "SELECT * FROM Movies";
 
         try (Connection conn = cp.getConnection();
              Statement stmt = conn.createStatement();
@@ -21,12 +19,12 @@ public class MovieDAO {
 
             while (rs.next()) {
                 Movie m = new Movie(
-                        rs.getInt("id"),
-                        rs.getString("title"),
-                        rs.getDouble("rating"),
-                        rs.getDouble("imdb_rating"),
-                        rs.getString("filelink"),
-                        rs.getString("lastview")
+                        rs.getInt("ID"),                    // Matches DB "ID"
+                        rs.getString("Name"),               // Matches DB "Name"
+                        rs.getDouble("Personal Rating"),    // Matches DB "Personal Rating"
+                        rs.getDouble("Site Rating"),        // Matches DB "Site Rating"
+                        rs.getString("File Link"),          // Matches DB "File Link"
+                        rs.getString("Last View")           // Matches DB "Last View"
                 );
                 // Populate categories for this movie
                 m.getCategories().addAll(getCategoriesForMovie(m.getId(), conn));
@@ -36,26 +34,26 @@ public class MovieDAO {
         return movies;
     }
 
-    // Helper method to fetch categories for a specific movie ID
     private List<Category> getCategoriesForMovie(int movieId, Connection conn) throws SQLException {
         List<Category> cats = new ArrayList<>();
+        // Updated table and column names (CategID, MovieID)
         String sql = """
-            SELECT c.id, c.name FROM Category c
-            JOIN CatMovie cm ON c.id = cm.category_id
-            WHERE cm.movie_id = ?
+            SELECT c.ID, c.Name FROM Categories c
+            JOIN CategMovie cm ON c.ID = cm.CategID
+            WHERE cm.MovieID = ?
         """;
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, movieId);
             ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
-                cats.add(new Category(rs.getInt("id"), rs.getString("name")));
+                cats.add(new Category(rs.getInt("ID"), rs.getString("Name")));
             }
         }
         return cats;
     }
 
     public void createMovie(Movie movie, List<Category> selectedCategories) {
-        String sql = "INSERT INTO Movie (title, rating, imdb_rating, filelink, lastview) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Movies (Name, [Personal Rating], [Site Rating], [File Link], [Last View]) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = cp.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -74,9 +72,9 @@ public class MovieDAO {
                 newMovieId = rs.getInt(1);
             }
 
-            // 2. Insert relations into CatMovie
+            // 2. Insert relations into CategMovie
             if (newMovieId > 0 && selectedCategories != null) {
-                String sqlRelation = "INSERT INTO CatMovie (movie_id, category_id) VALUES (?, ?)";
+                String sqlRelation = "INSERT INTO CategMovie (MovieID, CategID) VALUES (?, ?)";
                 try (PreparedStatement psCat = conn.prepareStatement(sqlRelation)) {
                     for (Category c : selectedCategories) {
                         psCat.setInt(1, newMovieId);
@@ -90,17 +88,26 @@ public class MovieDAO {
     }
 
     public void updateLastView(int movieId) {
-        // Logic to update lastview to current date
+        String sql = "UPDATE Movies SET [Last View] = ? WHERE ID = ?";
+
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        String currentDate = sdf.format(new java.util.Date());
+
+        try (Connection conn = cp.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, currentDate);
+            pstmt.setInt(2, movieId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) { e.printStackTrace(); }
     }
 
     public void deleteMovie(Movie movie) {
-        // 1. Delete the category links first
-        String sqlRec = "DELETE FROM CatMovie WHERE movie_id = ?";
-        // 2. Delete the movie itself
-        String sqlMov = "DELETE FROM Movie WHERE id = ?";
+        String sqlRec = "DELETE FROM CategMovie WHERE MovieID = ?";
+        String sqlMov = "DELETE FROM Movies WHERE ID = ?";
 
         try (Connection conn = cp.getConnection()) {
-            // ... (We delete relations first to avoid database errors) ...
+            conn.setAutoCommit(false);
+
             try (PreparedStatement stmtRec = conn.prepareStatement(sqlRec);
                  PreparedStatement stmtMov = conn.prepareStatement(sqlMov)) {
 
@@ -109,10 +116,16 @@ public class MovieDAO {
 
                 stmtMov.setInt(1, movie.getId());
                 stmtMov.executeUpdate();
+
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            } finally {
+                conn.setAutoCommit(true);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
 }

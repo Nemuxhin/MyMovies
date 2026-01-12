@@ -10,24 +10,18 @@ public class CategoryDAO {
 
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();
-        String sql = "SELECT * FROM Category";
+        String sql = "SELECT * FROM Categories";
 
         try (Connection conn = cp.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                categories.add(new Category(rs.getInt("id"), rs.getString("name")));
+                // Matches DB "ID" and "Name"
+                categories.add(new Category(rs.getInt("ID"), rs.getString("Name")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-
-        // If DB is empty, return defaults so the UI isn't broken
-        if (categories.isEmpty()) {
-            categories.add(new Category(-1, "Action"));
-            categories.add(new Category(-1, "Drama"));
-            categories.add(new Category(-1, "Comedy"));
         }
         return categories;
     }
