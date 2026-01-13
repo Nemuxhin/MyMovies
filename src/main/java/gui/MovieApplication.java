@@ -1,5 +1,6 @@
 package gui;
 
+import bll.MovieManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,11 +14,6 @@ public class MovieApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/MovieManagerView.fxml"));
 
         Parent root = fxmlLoader.load();
-
-        // Pass the Manager to the Controller (Dependency Injection)
-        MovieController controller = fxmlLoader.getController();
-        // controller.setManager(new MovieManager()); // Uncomment this when Manager is ready
-
         Scene scene = new Scene(root);
         stage.setTitle("My Movie Collection");
         stage.setScene(scene);

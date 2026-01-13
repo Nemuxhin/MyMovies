@@ -9,9 +9,9 @@ public class Movie {
     private double personalRating;
     private double imdbRating;
     private String fileLink;
-    private String lastView; // Stored as String (YYYY-MM-DD)
+    private String lastView;
 
-    // Many-to-Many representation
+    // This list holds the categories (Action, Horror, etc.)
     private List<Category> categories = new ArrayList<>();
 
     public Movie(int id, String title, double personalRating, double imdbRating, String fileLink, String lastView) {
@@ -32,25 +32,24 @@ public class Movie {
     public String getLastView() { return lastView; }
     public List<Category> getCategories() { return categories; }
 
-    // --- SETTERS (Added so you can Edit movies) ---
+    public void setId(int id) { this.id = id; }
     public void setTitle(String title) { this.title = title; }
     public void setPersonalRating(double personalRating) { this.personalRating = personalRating; }
     public void setImdbRating(double imdbRating) { this.imdbRating = imdbRating; }
     public void setFileLink(String fileLink) { this.fileLink = fileLink; }
     public void setLastView(String lastView) { this.lastView = lastView; }
 
-    // Helper to display categories in a TableView cell
-    public String getCategoriesAsString() {
-        StringBuilder sb = new StringBuilder();
-        for (Category c : categories) {
-            if (!sb.isEmpty()) sb.append(", ");
-            sb.append(c.getName());
-        }
-        return sb.toString();
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
-    @Override
-    public String toString() {
-        return title;
+    public String getCategoriesAsString() {
+        if (categories.isEmpty()) return "";
+        StringBuilder sb = new StringBuilder();
+        for (Category c : categories) {
+            sb.append(c.getName()).append(", ");
+        }
+        if (sb.length() > 0) sb.setLength(sb.length() - 2);
+        return sb.toString();
     }
 }

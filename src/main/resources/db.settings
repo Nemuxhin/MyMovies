@@ -1,0 +1,22 @@
+# ------------------------------------------------------------
+# Database settings for MyMovies
+# ------------------------------------------------------------
+# This file is loaded by dal.ConnectionProvider.
+# You can override these values without changing code:
+# - JVM args: -Ddb.server=... -Ddb.user=...
+# - Env vars: DB_SERVER, DB_USER, DB_PASSWORD, DB_DATABASE, DB_PORT
+# - External file: -Ddb.config=C:\path\to\db.settings
+# ------------------------------------------------------------
+
+server=10.176.111.34
+port=1433
+database=MyMovie
+user=CS2025b_e_9
+password=CS2025bE9#23
+
+# TLS settings used on school SQL Server
+encrypt=true
+trustServerCertificate=true
+
+# Fail faster when the server is unreachable
+loginTimeout=5
