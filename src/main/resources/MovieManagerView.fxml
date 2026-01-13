@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -54,9 +54,13 @@
                 <Label style="-fx-text-fill: white; -fx-font-size: 12px; -fx-effect: dropshadow(gaussian, black, 1.4, 1, 0, 0);" text="Personal rating" />
                 <TextField fx:id="txtPersonal" style="-fx-background-color: rgba(255,255,255,0.10); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.60); -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #F5C518; -fx-border-width: 1.4; -fx-padding: 12 14 12 14; -fx-font-size: 13px;" />
 
-                <Label style="-fx-text-fill: white; -fx-font-size: 12px; -fx-effect: dropshadow(gaussian, black, 1.4, 1, 0, 0);" text="Category" />
-                <ComboBox fx:id="cbCategory" style="-fx-background-color: rgba(255,255,255,0.10); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.60); -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #F5C518; -fx-border-width: 1.4; -fx-padding: 12 14 12 14; -fx-font-size: 13px;" />
+                <Label style="-fx-text-fill: white; -fx-font-size: 12px; -fx-effect: dropshadow(gaussian, black, 1.4, 1, 0, 0);" text="Categories (Hold Ctrl to select multiple)" />
+                <ListView fx:id="lstCategories" maxHeight="100" style="-fx-background-radius: 5;" />
 
+                <HBox spacing="10">
+                    <Button fx:id="btnAddCategory" text="New Cat" onAction="#handleAddCategory" style="-fx-background-color: #F5C518; -fx-text-fill: #0F1114; -fx-font-weight: bold; -fx-background-radius: 8;" />
+                    <Button fx:id="btnDeleteCategory" text="Del Cat" onAction="#handleDeleteCategory" style="-fx-background-color: #F5C518; -fx-text-fill: #0F1114; -fx-font-weight: bold; -fx-background-radius: 8;" />
+                </HBox>
                 <Label style="-fx-text-fill: white; -fx-font-size: 12px; -fx-effect: dropshadow(gaussian, black, 1.4, 1, 0, 0);" text="File Path" />
                 <HBox spacing="10">
                     <TextField fx:id="txtFile" promptText="C:/Movies/..." HBox.hgrow="ALWAYS" style="-fx-background-color: rgba(255,255,255,0.10); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.60); -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #F5C518; -fx-border-width: 1.4; -fx-padding: 12 14 12 14; -fx-font-size: 13px;" />
@@ -78,6 +82,7 @@
                         <TableColumn fx:id="colImdb" text="IMDb" />
                         <TableColumn fx:id="colPersonal" text="Personal" />
                         <TableColumn fx:id="colCategory" text="Category" />
+                        <TableColumn fx:id="colLastView" text="Last View" />
                     </columns>
                 </TableView>
             </VBox>

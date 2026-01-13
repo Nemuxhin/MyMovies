@@ -21,8 +21,6 @@ public class Category {
         this.name = name;
     }
 
-    // This is important for GUI elements (like ComboBoxes)
-    // to display the name instead of the object memory address
     @Override
     public String toString() {
         return name;

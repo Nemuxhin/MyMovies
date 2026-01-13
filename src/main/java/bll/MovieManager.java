@@ -1,80 +1,71 @@
 package bll;
 
-import be.Movie;
-import dal.MovieDAO;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
 import be.Category;
+import be.Movie;
 import dal.CategoryDAO;
+import dal.MovieDAO;
+import java.util.List;
 
 public class MovieManager {
-    private final MovieDAO movieDAO = new MovieDAO();
-    private final CategoryDAO categoryDAO = new CategoryDAO();
+
+    private MovieDAO movieDao = new MovieDAO();
+    private CategoryDAO categoryDao = new CategoryDAO();
 
     public List<Movie> getAllMovies() {
-        return movieDAO.getAllMovies();
+        return movieDao.getAllMovies();
     }
 
     public List<Category> getAllCategories() {
-        return categoryDAO.getAllCategories();
+        return categoryDao.getAllCategories();
     }
 
-    /**
-     * Checks for "Bad" movies according to assignment requirements
-     */
-    public List<Movie> getMoviesToDelete() {
-        List<Movie> all = getAllMovies();
-        List<Movie> warnings = new ArrayList<>();
-        LocalDate today = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    // --- 1. CREATE MOVIE
+    public void createMovie(String title, double imdb, double personal, String fileLink, List<Category> categories) {
+        System.out.println("MANAGER: Received request to create '" + title + "' with " + categories.size() + " categories.");
 
-        for (Movie m : all) {
-            // 1. Check Rating
-            if (m.getPersonalRating() < 6.0) {
-                // 2. Check Date
-                try {
-                    if (m.getLastView() != null && !m.getLastView().isEmpty()) {
-                        LocalDate lastViewDate = LocalDate.parse(m.getLastView(), formatter);
-                        long yearsBetween = ChronoUnit.YEARS.between(lastViewDate, today);
-
-                        if (yearsBetween >= 2) {
-                            warnings.add(m);
-                        }
-                    }
-                } catch (Exception e) {
-                    // Handle date parsing errors (ignore or log)
-                }
-            }
-        }
-        return warnings;
-    }
-    public void createMovie(String title, double imdb, double personal, String fileLink, Category category) {
         Movie newMovie = new Movie(-1, title, personal, imdb, fileLink, "");
-        // We pass a LIST of categories because the DB supports multiple
-        List<Category> cats = new ArrayList<>();
-        cats.add(category);
 
-        movieDAO.createMovie(newMovie, cats);
+        System.out.println("MANAGER: Passing to DAO now...");
+
+        // Pass the list directly to the DAO
+        movieDao.createMovie(newMovie, categories);
+
+        System.out.println("MANAGER: DAO finished.");
     }
 
+    // --- 2. UPDATE MOVIE ---
+    public void updateMovie(Movie movie, List<Category> categories) {
+        movieDao.updateMovie(movie, categories);
+    }
+
+    // --- 3. DELETE MOVIE ---
     public void deleteMovie(Movie movie) {
-        movieDAO.deleteMovie(movie);
+        movieDao.deleteMovie(movie);
     }
 
+    // --- 4. CATEGORY HANDLING ---
+    public void createCategory(String name) {
+        categoryDao.createCategory(name);
+    }
+
+    public void deleteCategory(Category category) {
+        categoryDao.deleteCategory(category);
+    }
+
+    // --- 5. SEARCH ---
     public List<Movie> searchMovies(String query) {
         List<Movie> allMovies = getAllMovies();
-        List<Movie> searchResult = new ArrayList<>();
+        List<Movie> searchResult = new java.util.ArrayList<>();
 
-        for (Movie movie : allMovies) {
-            // Check if title contains the query (case-insensitive)
-            if (movie.getTitle().toLowerCase().contains(query.toLowerCase())) {
-                searchResult.add(movie);
+        for (Movie m : allMovies) {
+            if (m.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                searchResult.add(m);
             }
         }
         return searchResult;
     }
-}
 
+    public void updateLastView(int id) {
+        movieDao.updateLastView(id);
+    }
+}
