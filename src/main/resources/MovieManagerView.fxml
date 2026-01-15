@@ -14,69 +14,116 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="720" prefWidth="1100" style="-fx-background-color: linear-gradient(to bottom right, #FFE7B0, #F5C65A);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MovieController">
+<BorderPane prefHeight="720" prefWidth="1100"
+            style="-fx-background-color: linear-gradient(to bottom right, #FFE7B0, #F5C65A);"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gui.MovieController">
 
     <top>
         <ToolBar style="-fx-background-color: #0F1114; -fx-padding: 10 12 10 12;">
-            <Label style="-fx-text-fill: #F5C518; -fx-font-size: 18px; -fx-font-weight: 900; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.95), 2.2, 1.0, 0, 0);" text="Movie Manager" />
+            <Label style="-fx-text-fill: #F5C518; -fx-font-size: 18px; -fx-font-weight: 900; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.95), 2.2, 1.0, 0, 0);"
+                   text="Movie Manager" />
 
             <Region HBox.hgrow="ALWAYS" />
 
-            <TextField fx:id="txtSearch" prefWidth="320" promptText="Search..." style="-fx-background-color: rgba(255,255,255,0.92); -fx-text-fill: #0F1114; -fx-font-size: 13px; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #F5C518; -fx-border-width: 1.6; -fx-padding: 12 14 12 14;" />
+            <TextField fx:id="txtSearch"
+                       prefWidth="260"
+                       promptText="Search..."
+                       style="-fx-background-color: rgba(255,255,255,0.92); -fx-text-fill: #0F1114; -fx-font-size: 13px; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #F5C518; -fx-border-width: 1.6; -fx-padding: 12 14 12 14;" />
 
-            <Button fx:id="btnSearch" style="-fx-background-color: #F5C518; -fx-text-fill: #0F1114; -fx-font-weight: 900; -fx-font-size: 14px; -fx-min-width: 46; -fx-min-height: 42; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8.0, 0.20, 0, 2); " text="🔍" />
+            <!-- Minimum IMDB rating filter -->
+            <TextField fx:id="txtMinImdb"
+                       prefWidth="120"
+                       promptText="Min IMDb"
+                       style="-fx-background-color: rgba(255,255,255,0.92); -fx-text-fill: #0F1114; -fx-font-size: 13px; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #F5C518; -fx-border-width: 1.6; -fx-padding: 12 14 12 14;" />
 
-            <Button fx:id="btnClearSearch" style="-fx-background-color: rgba(255,255,255,0.10); -fx-text-fill: white; -fx-font-weight: 900; -fx-font-size: 14px; -fx-min-width: 46; -fx-min-height: 42; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #F5C518; -fx-border-width: 1.4; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8.0, 0.20, 0, 2);" text="✕" />
+            <!-- Search button (optional, filtering is live anyway) -->
+            <Button fx:id="btnSearch"
+                    style="-fx-background-color: #F5C518; -fx-text-fill: #0F1114; -fx-font-weight: 900; -fx-font-size: 14px; -fx-min-width: 46; -fx-min-height: 42; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8.0, 0.20, 0, 2);"
+                    text="🔍" />
+
+            <Button fx:id="btnClearSearch"
+                    style="-fx-background-color: rgba(255,255,255,0.10); -fx-text-fill: white; -fx-font-weight: 900; -fx-font-size: 14px; -fx-min-width: 46; -fx-min-height: 42; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #F5C518; -fx-border-width: 1.4; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8.0, 0.20, 0, 2);"
+                    text="✕" />
 
             <Separator orientation="VERTICAL" />
 
-            <Button fx:id="btnAddMovie" style="-fx-background-color: #F5C518; -fx-text-fill: #0F1114; -fx-font-weight: 900; -fx-font-size: 14px; -fx-min-width: 46; -fx-min-height: 42; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8.0, 0.20, 0, 2); " text="＋" />
+            <Button fx:id="btnAddMovie"
+                    style="-fx-background-color: #F5C518; -fx-text-fill: #0F1114; -fx-font-weight: 900; -fx-font-size: 14px; -fx-min-width: 46; -fx-min-height: 42; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8.0, 0.20, 0, 2);"
+                    text="＋" />
 
-            <Button fx:id="btnEditMovie" style="-fx-background-color: #F5C518; -fx-text-fill: #0F1114; -fx-font-weight: 900; -fx-font-size: 14px; -fx-min-width: 46; -fx-min-height: 42; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8.0, 0.20, 0, 2); " text="✎" />
+            <Button fx:id="btnEditMovie"
+                    style="-fx-background-color: #F5C518; -fx-text-fill: #0F1114; -fx-font-weight: 900; -fx-font-size: 14px; -fx-min-width: 46; -fx-min-height: 42; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8.0, 0.20, 0, 2);"
+                    text="✎" />
 
-            <Button fx:id="btnDeleteMovie" style="-fx-background-color: #F5C518; -fx-text-fill: #0F1114; -fx-font-weight: 900; -fx-font-size: 14px; -fx-min-width: 46; -fx-min-height: 42; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8.0, 0.20, 0, 2); " text="🗑" />
+            <Button fx:id="btnDeleteMovie"
+                    style="-fx-background-color: #F5C518; -fx-text-fill: #0F1114; -fx-font-weight: 900; -fx-font-size: 14px; -fx-min-width: 46; -fx-min-height: 42; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8.0, 0.20, 0, 2);"
+                    text="🗑" />
         </ToolBar>
     </top>
 
     <center>
         <SplitPane dividerPositions="0.28">
 
-            <VBox spacing="10" style="-fx-background-color: rgba(15,17,20,0.92); -fx-padding: 16; -fx-border-color: rgba(245,197,24,0.3); -fx-border-width: 0 1 0 0;">
+            <VBox spacing="10"
+                  style="-fx-background-color: rgba(15,17,20,0.92); -fx-padding: 16; -fx-border-color: rgba(245,197,24,0.3); -fx-border-width: 0 1 0 0;">
 
-                <Label style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: 900; -fx-effect: dropshadow(gaussian, black, 1.8, 1, 0, 0);" text="Details" />
+                <Label style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: 900; -fx-effect: dropshadow(gaussian, black, 1.8, 1, 0, 0);"
+                       text="Details" />
 
-                <Label style="-fx-text-fill: white; -fx-font-size: 12px; -fx-effect: dropshadow(gaussian, black, 1.4, 1, 0, 0);" text="Title" />
-                <TextField fx:id="txtTitle" style="-fx-background-color: rgba(255,255,255,0.10); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.60); -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #F5C518; -fx-border-width: 1.4; -fx-padding: 12 14 12 14; -fx-font-size: 13px;" />
+                <Label style="-fx-text-fill: white; -fx-font-size: 12px; -fx-effect: dropshadow(gaussian, black, 1.4, 1, 0, 0);"
+                       text="Title" />
+                <TextField fx:id="txtTitle"
+                           style="-fx-background-color: rgba(255,255,255,0.10); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.60); -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #F5C518; -fx-border-width: 1.4; -fx-padding: 12 14 12 14; -fx-font-size: 13px;" />
 
-                <Label style="-fx-text-fill: white; -fx-font-size: 12px; -fx-effect: dropshadow(gaussian, black, 1.4, 1, 0, 0);" text="IMDb rating" />
-                <TextField fx:id="txtImdb" style="-fx-background-color: rgba(255,255,255,0.10); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.60); -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #F5C518; -fx-border-width: 1.4; -fx-padding: 12 14 12 14; -fx-font-size: 13px;" />
+                <Label style="-fx-text-fill: white; -fx-font-size: 12px; -fx-effect: dropshadow(gaussian, black, 1.4, 1, 0, 0);"
+                       text="IMDb rating" />
+                <TextField fx:id="txtImdb"
+                           style="-fx-background-color: rgba(255,255,255,0.10); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.60); -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #F5C518; -fx-border-width: 1.4; -fx-padding: 12 14 12 14; -fx-font-size: 13px;" />
 
-                <Label style="-fx-text-fill: white; -fx-font-size: 12px; -fx-effect: dropshadow(gaussian, black, 1.4, 1, 0, 0);" text="Personal rating" />
-                <TextField fx:id="txtPersonal" style="-fx-background-color: rgba(255,255,255,0.10); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.60); -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #F5C518; -fx-border-width: 1.4; -fx-padding: 12 14 12 14; -fx-font-size: 13px;" />
+                <Label style="-fx-text-fill: white; -fx-font-size: 12px; -fx-effect: dropshadow(gaussian, black, 1.4, 1, 0, 0);"
+                       text="Personal rating" />
+                <TextField fx:id="txtPersonal"
+                           style="-fx-background-color: rgba(255,255,255,0.10); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.60); -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #F5C518; -fx-border-width: 1.4; -fx-padding: 12 14 12 14; -fx-font-size: 13px;" />
 
-                <Label style="-fx-text-fill: white; -fx-font-size: 12px; -fx-effect: dropshadow(gaussian, black, 1.4, 1, 0, 0);" text="Categories (Hold Ctrl to select multiple)" />
+                <Label style="-fx-text-fill: white; -fx-font-size: 12px; -fx-effect: dropshadow(gaussian, black, 1.4, 1, 0, 0);"
+                       text="Categories (Hold Ctrl to select multiple)" />
                 <ListView fx:id="lstCategories" maxHeight="100" style="-fx-background-radius: 5;" />
 
                 <HBox spacing="10">
-                    <Button fx:id="btnAddCategory" text="New Cat" onAction="#handleAddCategory" style="-fx-background-color: #F5C518; -fx-text-fill: #0F1114; -fx-font-weight: bold; -fx-background-radius: 8;" />
-                    <Button fx:id="btnDeleteCategory" text="Del Cat" onAction="#handleDeleteCategory" style="-fx-background-color: #F5C518; -fx-text-fill: #0F1114; -fx-font-weight: bold; -fx-background-radius: 8;" />
+                    <Button fx:id="btnAddCategory" text="New Cat" onAction="#handleAddCategory"
+                            style="-fx-background-color: #F5C518; -fx-text-fill: #0F1114; -fx-font-weight: bold; -fx-background-radius: 8;" />
+                    <Button fx:id="btnDeleteCategory" text="Del Cat" onAction="#handleDeleteCategory"
+                            style="-fx-background-color: #F5C518; -fx-text-fill: #0F1114; -fx-font-weight: bold; -fx-background-radius: 8;" />
                 </HBox>
-                <Label style="-fx-text-fill: white; -fx-font-size: 12px; -fx-effect: dropshadow(gaussian, black, 1.4, 1, 0, 0);" text="File Path" />
+
+                <Label style="-fx-text-fill: white; -fx-font-size: 12px; -fx-effect: dropshadow(gaussian, black, 1.4, 1, 0, 0);"
+                       text="File Path" />
+
                 <HBox spacing="10">
-                    <TextField fx:id="txtFile" promptText="C:/Movies/..." HBox.hgrow="ALWAYS" style="-fx-background-color: rgba(255,255,255,0.10); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.60); -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #F5C518; -fx-border-width: 1.4; -fx-padding: 12 14 12 14; -fx-font-size: 13px;" />
-                    <Button fx:id="btnBrowse" text="..." style="-fx-background-color: #F5C518; -fx-text-fill: #0F1114; -fx-font-weight: 900; -fx-font-size: 14px; -fx-min-width: 42; -fx-min-height: 42; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8.0, 0.20, 0, 2);" />
+                    <TextField fx:id="txtFile" promptText="C:/Movies/..." HBox.hgrow="ALWAYS"
+                               style="-fx-background-color: rgba(255,255,255,0.10); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.60); -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #F5C518; -fx-border-width: 1.4; -fx-padding: 12 14 12 14; -fx-font-size: 13px;" />
+                    <Button fx:id="btnBrowse" text="..."
+                            style="-fx-background-color: #F5C518; -fx-text-fill: #0F1114; -fx-font-weight: 900; -fx-font-size: 14px; -fx-min-width: 42; -fx-min-height: 42; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8.0, 0.20, 0, 2);" />
                 </HBox>
 
                 <HBox spacing="10">
-                    <Button fx:id="btnSave" style="-fx-background-color: #F5C518; -fx-text-fill: #0F1114; -fx-font-weight: 900; -fx-font-size: 14px; -fx-min-width: 46; -fx-min-height: 42; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8.0, 0.20, 0, 2); " text="💾" />
-                    <Button fx:id="btnCancel" style="-fx-background-color: rgba(255,255,255,0.10); -fx-text-fill: white; -fx-font-weight: 900; -fx-font-size: 14px; -fx-min-width: 46; -fx-min-height: 42; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #F5C518; -fx-border-width: 1.4; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8.0, 0.20, 0, 2);" text="↩" />
+                    <Button fx:id="btnSave"
+                            style="-fx-background-color: #F5C518; -fx-text-fill: #0F1114; -fx-font-weight: 900; -fx-font-size: 14px; -fx-min-width: 46; -fx-min-height: 42; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8.0, 0.20, 0, 2);"
+                            text="💾" />
+                    <Button fx:id="btnCancel"
+                            style="-fx-background-color: rgba(255,255,255,0.10); -fx-text-fill: white; -fx-font-weight: 900; -fx-font-size: 14px; -fx-min-width: 46; -fx-min-height: 42; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #F5C518; -fx-border-width: 1.4; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8.0, 0.20, 0, 2);"
+                            text="↩" />
                 </HBox>
             </VBox>
 
             <VBox spacing="10" style="-fx-padding: 16; -fx-background-color: rgba(15,17,20,0.10);">
-                <Label style="-fx-text-fill: #0F1114; -fx-font-size: 14px; -fx-font-weight: 900;" text="Movies" />
+                <Label style="-fx-text-fill: #0F1114; -fx-font-size: 14px; -fx-font-weight: 900;"
+                       text="Movies" />
 
-                <TableView fx:id="tblMovies" style="-fx-background-color: rgba(15,17,20,0.12); -fx-background-radius: 14; -fx-border-radius: 14; -fx-border-color: #F5C518; -fx-border-width: 1.2;">
+                <TableView fx:id="tblMovies"
+                           style="-fx-background-color: rgba(15,17,20,0.12); -fx-background-radius: 14; -fx-border-radius: 14; -fx-border-color: #F5C518; -fx-border-width: 1.2;">
                     <columns>
                         <TableColumn fx:id="colTitle" text="Title" />
                         <TableColumn fx:id="colImdb" text="IMDb" />
@@ -91,9 +138,12 @@
 
     <bottom>
         <HBox spacing="10" style="-fx-background-color: rgba(15,17,20,0.92); -fx-padding: 10 16 10 16;">
-            <Label fx:id="lblStatus" style="-fx-text-fill: white; -fx-font-size: 12px; -fx-effect: dropshadow(gaussian, black, 1.4, 1, 0, 0);" text="Ready" />
+            <Label fx:id="lblStatus"
+                   style="-fx-text-fill: white; -fx-font-size: 12px; -fx-effect: dropshadow(gaussian, black, 1.4, 1, 0, 0);"
+                   text="Ready" />
             <Region HBox.hgrow="ALWAYS" />
-            <Label fx:id="lblCount" style="-fx-text-fill: white; -fx-font-size: 12px; -fx-effect: dropshadow(gaussian, black, 1.4, 1, 0, 0);" />
+            <Label fx:id="lblCount"
+                   style="-fx-text-fill: white; -fx-font-size: 12px; -fx-effect: dropshadow(gaussian, black, 1.4, 1, 0, 0);" />
         </HBox>
     </bottom>
 
