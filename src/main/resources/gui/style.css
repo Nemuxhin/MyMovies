@@ -1,0 +1,209 @@
+/* --- GLOBAL VARIABLES --- */
+* {
+    -fx-primary-color: #F5C518; /* IMDb-like Gold */
+    -fx-primary-hover: #FFD740; /* Lighter Gold for hover */
+
+    -fx-bg-base:     #121212;   /* Very dark grey (almost black) */
+    -fx-bg-surface:  #1E1E1E;   /* Slightly lighter for cards/sidebars */
+    -fx-bg-input:    #2C2C2C;   /* Input fields */
+
+    -fx-text-main:   #FFFFFF;   /* Pure white text */
+    -fx-text-muted:  #B3B3B3;   /* Light grey for secondary text */
+
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.root {
+    -fx-background-color: -fx-bg-base;
+    -fx-font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+
+/* --- TYPOGRAPHY --- */
+.label { -fx-text-fill: -fx-text-main; }
+
+.app-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+    -fx-text-fill: -fx-primary-color;
+}
+
+.header-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-text-fill: -fx-text-main;
+    -fx-padding: 0 0 10 0;
+}
+
+.field-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-weight: bold;
+}
+
+/* --- LAYOUT CONTAINERS --- */
+.top-toolbar {
+    -fx-background-color: -fx-bg-surface;
+    -fx-padding: 15 20;
+    -fx-spacing: 15;
+}
+
+.sidebar {
+    -fx-background-color: -fx-bg-surface;
+    -fx-padding: 20;
+    -fx-spacing: 15;
+}
+
+.content-area {
+    -fx-background-color: -fx-bg-base;
+    -fx-padding: 20;
+}
+
+.status-bar {
+    -fx-background-color: -fx-bg-surface;
+    -fx-padding: 5 15;
+}
+
+/* --- INPUT FIELDS --- */
+.text-field, .list-view {
+    -fx-background-color: -fx-bg-input;
+    -fx-text-fill: -fx-text-main;
+    -fx-prompt-text-fill: -fx-text-muted;
+    -fx-background-radius: 6;
+    -fx-border-width: 0;
+    -fx-padding: 10;
+}
+
+.text-field:focused, .list-view:focused {
+    -fx-background-color: #383838;
+    -fx-border-color: transparent transparent -fx-primary-color transparent;
+    -fx-border-width: 0 0 2 0;
+    -fx-background-radius: 6 6 0 0;
+}
+
+/* List View (Categories) */
+.list-view {
+    -fx-background-insets: 0;
+    -fx-padding: 5;
+}
+.list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-text-muted;
+    -fx-padding: 8 10;
+}
+.list-view .list-cell:filled:selected,
+.list-view .list-cell:filled:selected:hover {
+    -fx-background-color: rgba(245, 197, 24, 0.15);
+    -fx-text-fill: -fx-primary-color;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+}
+.list-view .list-cell:filled:hover {
+    -fx-background-color: #333333;
+    -fx-background-radius: 4;
+}
+
+/* --- BUTTONS --- */
+.button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-text-main;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-background-radius: 6;
+    -fx-padding: 8 16;
+}
+
+.button:hover { -fx-background-color: rgba(255, 255, 255, 0.1); }
+.button:pressed { -fx-background-color: rgba(255, 255, 255, 0.2); }
+
+.accent-button {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: #000000;
+}
+.accent-button:hover {
+    -fx-background-color: -fx-primary-hover;
+    -fx-effect: dropshadow(three-pass-box, rgba(245, 197, 24, 0.4), 10, 0, 0, 0);
+}
+
+.small-button {
+    -fx-font-size: 10px;
+    -fx-padding: 4 8;
+    -fx-background-color: #333333;
+}
+.small-button:hover { -fx-background-color: #444444; }
+
+/* --- TABLE VIEW --- */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+/* Header */
+.table-view .column-header-background {
+    -fx-background-color: -fx-bg-base;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #333333;
+}
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-size: 45px;
+}
+.table-view .column-header .label {
+    -fx-text-fill: -fx-text-muted; /* Headers stay greyish */
+    -fx-font-weight: 700;
+    -fx-font-size: 12px;
+    -fx-alignment: CENTER-LEFT;
+}
+
+/* Rows & Cells */
+.table-row-cell {
+    -fx-background-color: -fx-bg-base;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #1E1E1E;
+    -fx-cell-size: 40px;
+}
+
+.table-cell {
+    -fx-text-fill: white;
+    -fx-alignment: CENTER-LEFT;
+}
+
+.table-row-cell:odd { -fx-background-color: -fx-bg-base; }
+
+/* Selected Row */
+.table-row-cell:selected {
+    -fx-background-color: #262626;
+}
+/* When selected, text turns Gold */
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: -fx-primary-color;
+}
+
+/* Scrollbars */
+.scroll-bar:vertical, .scroll-bar:horizontal { -fx-background-color: transparent; }
+.scroll-bar .thumb { -fx-background-color: #333333; -fx-background-radius: 10; }
+
+/* --- SPLIT PANE --- */
+.split-pane { -fx-background-color: -fx-bg-base; -fx-padding: 0; }
+.split-pane > .split-pane-divider {
+    -fx-background-color: transparent;
+    -fx-padding: 0 2 0 2;
+}
+
+/* --- ICON BUTTONS --- */
+.icon-button {
+    -fx-font-size: 14px;      /* Slightly larger text for the emojis */
+    -fx-padding: 8 12;        /* Less side padding to make them squarer */
+    -fx-min-width: 38px;      /* Minimum width to ensure clickability */
+    -fx-alignment: CENTER;
+    -fx-content-display: CENTER;
+}
+
+/* Make the "Clear Search" (X) button slightly subtler */
+#btnClearSearch {
+    -fx-text-fill: -fx-text-muted;
+}
+#btnClearSearch:hover {
+    -fx-text-fill: -fx-text-main;
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
