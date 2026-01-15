@@ -40,7 +40,7 @@ public class MovieDAO {
         }
         return allMovies;
     }
-
+    /** gets all categories (like Action, Comedy, Drama, etc.) for one movie */
     // --- Helper: Get Categories ---
     private List<Category> getCategoriesForMovie(int movieId) {
         List<Category> categories = new ArrayList<>();

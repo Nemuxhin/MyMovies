@@ -26,3 +26,8 @@ public class Category {
         return name;
     }
 }
+
+/**
+ * Represents a movie category used for grouping movies by genre or type.
+ * Encapsulation is applied: fields are private with public getters and setters.
+ */
